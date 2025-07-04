@@ -1,0 +1,95 @@
+{
+  "experiment": {
+    "name": "CDRC_science_feasibility_control",
+    "description": "Conformal Distortion Risk Control for scientific text generation"
+  },
+  "data": {
+    "dataset": "science_prompts",
+    "dataset_file": "./processed_science_data/science_prompts.pkl",
+    "num_prompts": 100,
+    "num_responses_per_prompt": 40,
+    "max_candidate_set_size": 32,
+    "train_test_split": 0.6,
+    "ppl_threshold_percentile": 50,
+    "rouge_threshold": 0.3,
+    "coherence_threshold": 0.4,
+    "fields": ["chemistry", "physics", "general"]
+  },
+  "models": {
+    "llm": "facebook/galactica-1.3b",
+    "alternative_llms": [
+      "facebook/galactica-6.7b",
+      "allenai/scibert_scivocab_uncased",
+      "EleutherAI/gpt-neo-1.3B"
+    ],
+    "science_evaluator": "allenai/scibert_scivocab_uncased",
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "specialized_models": {
+      "chemistry": "seyonec/ChemBERTa-zinc-base-v1",
+      "physics": null
+    },
+    "bias_levels": [0.15, 0.30, 0.70],
+    "use_gpt4": false,
+    "gpt4_api_key": null
+  },
+  "parameters": {
+    "alpha_values": [0.2, 0.25, 0.3, 0.35, 0.4],
+    "beta_values": [0.6, 0.7, 0.75, 0.8, 0.85],
+    "f1_thresholds": [0.750, 0.800, 0.850],
+    "validity_thresholds": [0.3, 0.5, 0.7],
+    "generation": {
+      "temperature": 0.8,
+      "top_p": 0.9,
+      "max_new_tokens": 100
+    }
+  },
+  "experiments": {
+    "methods": ["DRC", "DKW", "BJ"],
+    "num_trials": {
+      "DRC": 15,
+      "DKW": 15,
+      "BJ": 3
+    },
+    "evaluation_metrics": [
+      "science_validity",
+      "perplexity",
+      "rouge_similarity",
+      "logical_coherence",
+      "formula_correctness",
+      "experimental_feasibility"
+    ]
+  },
+  "paths": {
+    "base_dir": "./cdrc_science_experiments",
+    "data_dir": "./processed_science_data",
+    "models_dir": "./science_models",
+    "results_dir": "./results_science_0.15",
+    "var_results_dir": "./var_results_science_0.15",
+    "figures_dir": "./figures_science",
+    "tables_dir": "./tables_science",
+    "science_data": "./science_data",
+    "knowledge_base": "./science_knowledge_base.json",
+    "cache_dir": "./cache"
+  },
+  "compute": {
+    "device": "cuda",
+    "batch_size": 16,
+    "num_workers": 4,
+    "parallel_trials": false,
+    "mixed_precision": true,
+    "max_gpu_memory": "24GB"
+  },
+  "science_specific": {
+    "formula_validation": true,
+    "unit_checking": true,
+    "law_violation_detection": true,
+    "require_citations": false,
+    "knowledge_base_similarity": true,
+    "field_specific_evaluation": true,
+    "human_evaluation": {
+      "enabled": false,
+      "template_file": "./processed_science_data/human_evaluation_template.csv",
+      "results_file": "./processed_science_data/human_evaluation_results.csv"
+    }
+  }
+}

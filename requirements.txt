@@ -1,0 +1,39 @@
+# Core dependencies
+numpy>=1.21.0,<1.25.0
+scipy>=1.7.0,<1.11.0
+pandas>=1.3.0,<2.1.0
+scikit-learn>=1.0.0,<1.4.0
+tqdm>=4.60.0
+
+# Plotting
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# PyTorch and related
+torch>=2.0.0,<2.1.0
+torchvision>=0.15.0,<0.16.0
+torchaudio>=2.0.0,<2.1.0
+
+# NLP and transformers - let pip resolve the best versions
+transformers>=4.20.0,<4.35.0
+datasets>=2.0.0
+tokenizers>=0.11.0,<0.14.0
+accelerate>=0.15.0
+
+# Toxicity detection
+detoxify>=0.5.0
+
+# Text similarity
+rouge-score>=0.1.0
+
+# Utilities
+joblib>=1.0.0
+
+# Additional dependencies
+sentencepiece>=0.1.91
+protobuf>=3.19.0
+
+# Optional but recommended
+huggingface-hub>=0.10.0
+filelock>=3.0.0
+packaging>=20.0
